@@ -54,8 +54,8 @@ class UsersController extends AppController
 
     //créer un nouveau user, par exemple à partir de l'inscription
     public function controlCreateUser($username, $email, $password, $passwordconf, $groupe = "user", $status = "NO"){
-        $resultUser = $this->user->existUser($username);
-        $resultEmail = $this->user->existEmail($email);
+        $resultUser = $this->user->existElement('user_name',$username,'user');
+        $resultEmail = $this->user->existElement('user_email',$email,'user');
         if($resultEmail == false && $resultEmail == false){
             if(strlen($username) >= 3 && strlen($username)<= 10 && ($this->secureInput($username) == $username)){
                 if($this->input($username) == $username){

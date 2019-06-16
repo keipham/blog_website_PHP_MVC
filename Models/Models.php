@@ -11,23 +11,15 @@ class Models{
     }
 
     public function existElement($column, $element, $table){
-        echo 'inside existElement';
-       
-        try {
-            //print_r($this->conn);
-            $stmt = $this->conn->prepare("SELECT * FROM :dbtable WHERE :column = :element");
-        }catch (exception $e){
-            echo 'not working';
-        }
+           
+        $stmt = $this->conn->prepare("SELECT * FROM :dbtable WHERE :column = :element");
         
-        echo '111';
         $stmt->bindParam(":dbtable", $table, PDO::PARAM_STR);
         $stmt->bindParam(":column", $column, PDO::PARAM_STR);
         $stmt->bindParam(":element", $element, PDO::PARAM_STR);
         $stmt->execute(); 
 
         $result = $stmt->fetch();
-        echo 'end of existElement';
         if($result){
             return TRUE; 
         }

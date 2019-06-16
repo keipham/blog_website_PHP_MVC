@@ -13,6 +13,14 @@ class AppController {
         return $this->model;
     }
 
+    /*public function render($file = null){
+        extract($this->vars);
+        ob_start();//enclenche la temporisation de sortie
+        require_once("../Views/".$file.".php");
+        $content = ob_get_clean();
+        return $content;    
+    } */
+
     public function input($data){
         $data = stripslashes($data);
         $data = htmlspecialchars($data);

@@ -10,7 +10,6 @@ class Database
       if (!isset(self::$instance)){
         $instance = new Database;
       }
-      //return $instance->conn;
       echo 'Start database !';
       return $instance;
     }

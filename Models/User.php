@@ -1,6 +1,5 @@
 <?php
 //echo __DIR__;
-echo 'User.php';
 require_once(__DIR__.'/Models.php');
 
 class User extends Models{
@@ -50,32 +49,10 @@ class User extends Models{
             return false;
         }
     }
-/*
-    public static function existEmail($email){
-        echo 'inside existEmail';
-        $table = "user";
-        $column = "user_email";
-        $result = $this->existElement($column, $email, $table);
-        if($result){
-            return true;
-        }else{
-            return false;
-        }
-    }
 
-    public static function existUserId($id){
-        $table = "user";
-        $result = $this->existElementId($id,$table);
-        if($result){
-            return true;
-        }else{
-            return false;
-        }
-    }
-*/
     public static function createUser($username, $password, $email, $groupe, $status = "NO"){
         
-        $sql = "INSERT INTO user (username, password, email, groupe, status, creation_date, edition_date) VALUES (:username, :password, :email, :groupe, :status, NOW(),NOW())"; // préparation des étiquettes
+        $sql = "INSERT INTO user (user_name, user_password, user_email, user_group, user_status, created_by, updated_by) VALUES (:username, :password, :email, :groupe, :status, :username,:username"; // préparation des étiquettes
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":username", $username);
         $hash = password_hash($password, PASSWORD_DEFAULT);//password crypté
@@ -115,7 +92,6 @@ class User extends Models{
     }
 }
 
-//$toto = new User;
 
 
 ?>

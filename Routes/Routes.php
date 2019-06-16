@@ -13,10 +13,10 @@ Route::set('contact-us', function(){
 });
 
 Route::set('register', function(){
-    Index::CreateView('Register');
+    RegisterController::CreateView('Register');
 });
 
 Route::set('login', function(){
-    Index::CreateView('Login');
+    Login::CreateView('Login');
 });
 ?>

@@ -6,8 +6,7 @@ class Route{
     protected $url;
 
     public function parseUrl(){
-        if (isset($_SERVER['REQUEST_URI']))
-        {
+        if (isset($_SERVER['REQUEST_URI'])) {
             print_r($_SERVER['REQUEST_URI']);
             $this->url = substr($_SERVER['REQUEST_URI'], 6, -1);
             print($this->url);

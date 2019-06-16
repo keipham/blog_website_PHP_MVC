@@ -1,15 +1,20 @@
 <?php
-require_once('Models.php');
+//echo __DIR__;
+echo 'User.php';
+require_once(__DIR__.'/Models.php');
 
-class user extends Models{
+class User extends Models{
 
-
-    public function getAllUsers(){
+    public function __construct() {
+        parent::__construct();
+        
+    }
+    public static function getAllUsers(){
         $table = "user";
         return $this->getAllElements($table);
     }
 
-    public function getId($username){
+    public static function getId($username){
         $sql = "SELECT id FROM user WHERE username = :username";
         $stmt= $this->conn->prepare($sql);
         $stmt->bindParam(":username", $username);
@@ -19,12 +24,12 @@ class user extends Models{
         return $result['id'];
     }
 
-    public function getUser($id){
+    public static function getUser($id){
         $table = "user";
         return $this->getElement($id,$table);
     }
 
-    public function getUserGroup($username){
+    public static function getUserGroup($username){
         $sql = "SELECT groupe FROM user WHERE username = :username";
         $stmt= $this->conn->prepare($sql);
         $stmt->bindParam(":username", $username);
@@ -34,20 +39,22 @@ class user extends Models{
         return $result['groupe'];
     }
 
-    public function existUser($username){
+    public static function existUser($username){
+        echo 'inside existUser';
         $table = "user";
         $column = "user_name";
-        $result = $this->existElement($column, $username, $table);
+        $result = parent::existElement($column, $username, $table);
         if($result){
             return true;
         }else{
             return false;
         }
     }
-
-    public function existEmail($email){
+/*
+    public static function existEmail($email){
+        echo 'inside existEmail';
         $table = "user";
-        $column = "email";
+        $column = "user_email";
         $result = $this->existElement($column, $email, $table);
         if($result){
             return true;
@@ -56,7 +63,7 @@ class user extends Models{
         }
     }
 
-    public function existUserId($id){
+    public static function existUserId($id){
         $table = "user";
         $result = $this->existElementId($id,$table);
         if($result){
@@ -65,8 +72,8 @@ class user extends Models{
             return false;
         }
     }
-
-    public function createUser($username, $password, $email, $groupe, $status = "NO"){
+*/
+    public static function createUser($username, $password, $email, $groupe, $status = "NO"){
         
         $sql = "INSERT INTO user (username, password, email, groupe, status, creation_date, edition_date) VALUES (:username, :password, :email, :groupe, :status, NOW(),NOW())"; // préparation des étiquettes
         $stmt = $this->conn->prepare($sql);
@@ -81,7 +88,7 @@ class user extends Models{
         return $result;
     }
 
-    public function updateUser($id, $username, $password, $email, $groupe, $status = "NO"){
+    public static function updateUser($id, $username, $password, $email, $groupe, $status = "NO"){
         $sql = "UPDATE user SET username = :username, password = :password, email = :email, groupe = :groupe, status = :status, edition_date = NOW() WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":username", $username);
@@ -94,12 +101,12 @@ class user extends Models{
         $stmt->execute();
     }
 
-    public function deleteUser($id){
+    public static function deleteUser($id){
         $table = "user";
         return $this->deleteElement($id,$table);
     }
 
-    public function logout(){
+    public static function logout(){
         unset($_SESSION);
         unset($_COOKIE['username']);
         setcookie("username","",time() - 3600);
@@ -108,6 +115,7 @@ class user extends Models{
     }
 }
 
+//$toto = new User;
 
 
 ?>

@@ -1,28 +1,34 @@
 <?php
+//echo __DIR__;
 $testuser = false;
 if(!empty($_POST))
 {
     extract($_POST);
-   
     $errors = array();
-    require_once('../Models/User.php');
-    $modelVerify = new user;
-    require_once('../controllers/UsersController.php');
-    $verify = new UsersController;
+   
+    require_once dirname(__DIR__).'/Models/User.php';
     
+    $modelVerify = new User;
+    require_once dirname(__DIR__).'/Controllers/UsersController.php';
+    
+    $verify = new UsersController;
+    //echo 'after instantitation of usersController';
     if(strlen($username) < 3) 
     {
         array_push($errors, "Invalid username. Min 3 characters required.\n");
+        echo 'erreur username < 3';
     }
-    if($modelVerify->existUser($username) != false || $modelVerify->existEmail($email) != false){
+    if($modelVerify->existElement('user_name', $username, 'user') != false || $modelVerify->existElement('user_email', $email, 'user') != false){
+    //if($modelVerify->existUser($username) != false || $modelVerify->existEmail($email) != false){
         array_push($errors, "The username or email is already taken.\n");
+        echo 'erreur username email non unique';
     }
-    if($verify->input($username) != $username){
+    /*if($verify->input($username) != $username){
         array_push($errors, "The username is not valid.\n");
     }
     if($verify->input($password) != $password){
         array_push($errors, "The password is not valid.\n");
-    }
+    }*/
     if(!preg_match("/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/", $email)){
         array_push($errors, "The email is not valid.\n");
     }
@@ -30,12 +36,13 @@ if(!empty($_POST))
         array_push($errors, "The password verification is not valid.\n");
     }
     
-    if(empty($errors))
-    {   session_start();
+    if(empty($errors)) {   
+        echo 'session starrt';
+        session_start();
         $_SESSION["email"] = $email;
         $_SESSION["username"] = $username;
-        $id = $modelVerify->getID($_SESSION["username"]);
-        $_SESSION["id"]= $id;
+        //$id = $modelVerify->getID($_SESSION["username"]);
+        //$_SESSION["id"]= $id;
 
         $testuser = true;
     
@@ -47,7 +54,8 @@ if(!empty($_POST))
 ?>
 <!DOCTYPE html>
 <html>
-<?php require_once('navbar.php'); ?>
+<?php 
+require_once(dirname(__DIR__).'/navbar.php'); ?>
 <body>
 
     <div class='container' >

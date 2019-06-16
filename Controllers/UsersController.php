@@ -1,6 +1,10 @@
 <?php
- require_once 'AppController.php';
- require_once '../Models/User.php';
+echo __DIR__;
+ require_once __DIR__.'/AppController.php';
+ echo 'require appcontroller';
+ require_once dirname(__DIR__).'/Models/User.php';
+ echo 'require user.php';
+
 class UsersController extends AppController
 {
     private $user;
@@ -58,7 +62,7 @@ class UsersController extends AppController
                     if(preg_match("/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/", $email)){
                         if ($password == $passwordconf){
                             $this->user->createUser($username, $password, $email,$groupe);
-                            // header("Location : /perso/blog_website_PHP_MVC_architecture/ArticlesController/controlGetViewArticles");
+                            header("Location : /perso/blog_website_PHP_MVC_architecture/ArticlesController/controlGetViewArticles");
                         }else{
                             return false;
                         }
@@ -77,7 +81,7 @@ class UsersController extends AppController
     public function displayCreateUser(){
         require_once('../Views/createUser.php');
     }
-
+/*
     //obtenir un User à partir de son id
     public function controlGetUser($id = null){
         if($id != null){
@@ -99,8 +103,7 @@ class UsersController extends AppController
                 echo "The parameters isn't a number";
                 return false;
             }
-        }
-        else{
+        }else{
             echo "The parameters doesn't exist";
             return false;
         }
@@ -108,32 +111,23 @@ class UsersController extends AppController
 
     // supprimer un User à partir de son id
     public function controlDeleteUser($id){
-        if($id != null)
-        {
+        if($id != null){
             $id = intval($id);
 
-            if(is_int($id))
-            {
+            if(is_int($id)){
                 $result = $this->user->existUserId($id);
-                if($result)
-                {
+                if($result){
                     $this->user->deleteUser($id);
                     header("Location:controlGetAllUser");
                     return true;
-                }
-                else
-                {
+                }else{
                     echo "This id doesn't exist on the base";
                     return false;
                 }
-            }
-            else
-            {
+            }else{
                 echo "this is not a number";
             }
-        }
-        else
-        {
+        }else{
             echo "The parameters doesn't exist";
             return false;
         }
@@ -171,5 +165,9 @@ class UsersController extends AppController
         session_destroy();
         header('Location: /perso/blog_website_PHP_MVC_architecture/UsersController/render/login');
     }
+}
+
+    }
+    */
 }
 ?>

@@ -19,24 +19,22 @@ CREATE TABLE IF NOT EXISTS `user` (
 DROP TRIGGER IF EXISTS before_user_created;
 DELIMITER $$
 CREATE TRIGGER before_user_created
-BEFORE INSERT ON `user`
-FOR EACH ROW BEGIN
-	INSERT INTO user (
-		created_date, updated_date
-	) VALUES(
-		NOW(), NOW()
-	);
+BEFORE INSERT ON `user` FOR EACH ROW 
+BEGIN
+  set new.created_date = NOW();
+  set new.updated_date = NOW();
 END $$
+DELIMITER;
 
 DROP TRIGGER IF EXISTS before_user_updated;
 DELIMITER $$
 CREATE TRIGGER before_user_updated
 BEFORE UPDATE ON `user`
-FOR EACH ROW BEGIN
-	UPDATE user 
-  SET updated_date = NOW();
+FOR EACH ROW 
+BEGIN
+  SET new.updated_date = NOW();
 END $$
-
+DELIMITER;
 CREATE TABLE IF NOT EXISTS `article` (
   `article_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `article_title` varchar(255) DEFAULT NULL,
@@ -58,22 +56,22 @@ DROP TRIGGER IF EXISTS before_article_created;
 DELIMITER $$
 CREATE TRIGGER before_article_created
 BEFORE INSERT ON `article`
-FOR EACH ROW BEGIN
-	INSERT INTO article (
-		created_date, updated_date
-	) VALUES(
-		NOW(), NOW()
-	);
+FOR EACH ROW 
+BEGIN
+	set new.created_date = NOW();
+  set new.updated_date = NOW();
 END $$
+DELIMITER;
 
 DROP TRIGGER IF EXISTS before_article_updated;
 DELIMITER $$
 CREATE TRIGGER before_article_updated
 BEFORE UPDATE ON `article`
-FOR EACH ROW BEGIN
-	UPDATE article 
-  SET updated_date = NOW();
+FOR EACH ROW 
+BEGIN
+SET new.updated_date = NOW();
 END $$
+DELIMITER;
 
 CREATE TABLE IF NOT EXISTS `category` (
   `category_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -86,3 +84,24 @@ CREATE TABLE IF NOT EXISTS `category` (
 
   PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TRIGGER IF EXISTS before_category_created;
+DELIMITER $$
+CREATE TRIGGER before_category_created
+BEFORE INSERT ON `category`
+FOR EACH ROW 
+BEGIN
+	set new.created_date = NOW();
+  set new.updated_date = NOW();
+END $$
+DELIMITER;
+
+DROP TRIGGER IF EXISTS before_category_updated;
+DELIMITER $$
+CREATE TRIGGER before_category_updated
+BEFORE UPDATE ON `category`
+FOR EACH ROW 
+BEGIN
+SET new.updated_date = NOW();
+END $$
+DELIMITER;

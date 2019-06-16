@@ -1,7 +1,7 @@
 <?php
-require_once('Models.php');
+require_once(__DIR__.'Models.php');
 
-class category extends Models{
+class Category extends Models{
 
     public function getAllCategories(){
         $table = "category";

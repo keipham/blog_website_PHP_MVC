@@ -1,25 +1,33 @@
 <?php
-
-require_once('../Config/db.php');
+require_once(dirname(__DIR__).'/Config/Database.php');
 
 class Models{
     protected $instance;
     protected $conn;
     
     public function __construct(){
-        $instance = db::getInstance();
+        $instance = Database::getInstance();
         $this->conn = $instance->getConnection();
     }
 
-    protected function existElement($column, $element, $table){
-        $sql = "SELECT * FROM $table WHERE $column = :element";
-
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(":element", $element);
+    public function existElement($column, $element, $table){
+        echo 'inside existElement';
+       
+        try {
+            //print_r($this->conn);
+            $stmt = $this->conn->prepare("SELECT * FROM :dbtable WHERE :column = :element");
+        }catch (exception $e){
+            echo 'not working';
+        }
+        
+        echo '111';
+        $stmt->bindParam(":dbtable", $table, PDO::PARAM_STR);
+        $stmt->bindParam(":column", $column, PDO::PARAM_STR);
+        $stmt->bindParam(":element", $element, PDO::PARAM_STR);
         $stmt->execute(); 
 
         $result = $stmt->fetch();
-
+        echo 'end of existElement';
         if($result){
             return TRUE; 
         }
